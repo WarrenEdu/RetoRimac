@@ -1,0 +1,29 @@
+{
+  "name": "agenda_app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.152",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.5.1",
+    "esbuild": "^0.25.10",
+    "jest": "^30.1.3",
+    "serverless": "^3.40.0",
+    "serverless-esbuild": "^1.55.1",
+    "ts-jest": "^29.4.3",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.891.0",
+    "@aws-sdk/client-sns": "^3.891.0",
+    "@aws-sdk/lib-dynamodb": "^3.891.0",
+    "mysql2": "^3.15.0"
+  }
+}

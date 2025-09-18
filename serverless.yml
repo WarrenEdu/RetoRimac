@@ -1,0 +1,169 @@
+service: agendamiento-medico-rimac
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-2
+  stage: dev
+  environment:
+    DYNAMODB_TABLE: Appointments-${self:provider.stage}
+    SNS_TOPIC_ARN: !Ref AppointmentRequestsTopic
+    EVENT_BRIDGE_SOURCE: custom.appointment
+    RDS_HOST_PE: ${env:RDS_HOST_PE}
+    RDS_USER_PE: ${env:RDS_USER_PE}
+    RDS_PASSWORD_PE: ${env:RDS_PASSWORD_PE}
+    RDS_DATABASE_PE: ${env:RDS_DATABASE_PE}
+    RDS_HOST_CL: ${env:RDS_HOST_CL}
+    RDS_USER_CL: ${env:RDS_USER_CL}
+    RDS_PASSWORD_CL: ${env:RDS_PASSWORD_CL}
+    RDS_DATABASE_CL: ${env:RDS_DATABASE_CL}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:PutItem"
+            - "dynamodb:GetItem"
+            - "dynamodb:Query"
+            - "dynamodb:UpdateItem"
+          Resource:
+            - !GetAtt AppointmentsTable.Arn
+            - arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/Appointments-${self:provider.stage}/index/insuredId-index
+        - Effect: "Allow"
+          Action:
+            - "sns:Publish"
+          Resource: !Ref AppointmentRequestsTopic
+        - Effect: "Allow"
+          Action:
+            - "sqs:ReceiveMessage"
+            - "sqs:DeleteMessage"
+          Resource: !GetAtt EventConfirmationQueue.Arn
+        - Effect: "Allow"
+          Action:
+            - "events:PutEvents"
+          Resource: !Join [ ":", [ "arn:aws:events", "${self:provider.region}", "${aws:accountId}", "event-bus/default" ] ]
+
+plugins:
+  - serverless-esbuild
+
+custom:
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: false
+    platform: node
+    external: ['aws-sdk']
+
+functions:
+  appointment:
+    handler: src/handlers/appointment.handler
+    events:
+      - http:
+          path: /appointments
+          method: post
+      - http:
+          path: /appointments/{insuredId}
+          method: get
+      - sqs:
+          arn: !GetAtt EventConfirmationQueue.Arn
+          batchSize: 1
+  appointment_pe:
+    handler: src/handlers/appointment_pe.handler
+    events:
+      - sqs:
+          arn: !GetAtt SQSPEQueue.Arn
+          batchSize: 1
+  appointment_cl:
+    handler: src/handlers/appointment_cl.handler
+    events:
+      - sqs:
+          arn: !GetAtt SQSCLQueue.Arn
+          batchSize: 1
+
+resources:
+  Resources:
+    
+    AppointmentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Appointments-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: insuredId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: insuredId-index
+            KeySchema:
+              - AttributeName: insuredId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+
+    
+    AppointmentRequestsTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: appointment-requests-${self:provider.stage}
+
+
+    SQSPEQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: SQS_PE-${self:provider.stage}
+
+    SQSCLQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: SQS_CL-${self:provider.stage}
+
+
+    EventConfirmationQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: event-confirmation-queue-${self:provider.stage}
+
+
+    SQSPEQueueSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: !GetAtt SQSPEQueue.Arn
+        Protocol: sqs
+        TopicArn: !Ref AppointmentRequestsTopic
+        FilterPolicy:
+          countryISO:
+            - PE
+
+    SQSCLQueueSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: !GetAtt SQSCLQueue.Arn
+        Protocol: sqs
+        TopicArn: !Ref AppointmentRequestsTopic
+        FilterPolicy:
+          countryISO:
+            - CL
+
+
+    EventBridgeRule:
+      Type: AWS::Events::Rule
+      Properties:
+        EventBusName: default
+        EventPattern:
+          source:
+            - custom.appointment
+        Targets:
+          - Arn: !GetAtt EventConfirmationQueue.Arn
+            Id: SQSConfirmationQueue
+            InputTransformer:
+              InputTemplate: '{"body": <aws.events.detail>}'

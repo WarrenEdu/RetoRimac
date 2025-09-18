@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: API Agendamiento Médico
+  version: 1.0.0
+  description: API para agendar y consultar citas médicas para asegurados en Perú y Chile.
+servers:
+  - url: https://dqmh5iouf1.execute-api.us-east-2.amazonaws.com/dev
+paths:
+  /appointments:
+    post:
+      summary: Registrar agendamiento de cita médica
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                insuredId:
+                  type: string
+                  example: "01234"
+                scheduleId:
+                  type: integer
+                  example: 1001
+                countryISO:
+                  type: string
+                  enum: [PE, CL]
+                  example: "PE"
+      responses:
+        '200':
+          description: Agendamiento en proceso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Agendamiento en proceso
+        '400':
+          description: Parámetros inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /appointments/{insuredId}:
+    get:
+      summary: Listar agendamientos por asegurado
+      parameters:
+        - name: insuredId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de agendamientos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    insuredId:
+                      type: string
+                    scheduleId:
+                      type: integer
+                    countryISO:
+                      type: string
+                    status:
+                      type: string
+                    createdAt:
+                      type: string
+                    updatedAt:
+                      type: string
+        '400':
+          description: Parámetro insuredId faltante
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
