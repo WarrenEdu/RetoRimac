@@ -20,8 +20,24 @@ paths:
                   type: string
                   example: "01234"
                 scheduleId:
-                  type: integer
-                  example: 1001
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1001
+                    centerId:
+                      type: integer
+                      example: 4
+                    specialtyId:
+                      type: integer
+                      example: 3
+                    medicId:
+                      type: integer
+                      example: 4
+                    date:
+                      type: string
+                      format: date-time
+                      example: "2024-09-30T12:30:00Z"
                 countryISO:
                   type: string
                   enum: [PE, CL]

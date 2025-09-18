@@ -26,19 +26,39 @@ export const handlePost = async (event: APIGatewayProxyEvent): Promise<APIGatewa
                 body: JSON.stringify({ message: 'Missing parameters: insuredId, scheduleId, or countryISO' }),
             };
         }
-
+        // insuredId debe ser string de 5 dígitos
+        if (!/^\d{5}$/.test(data.insuredId)) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: 'insuredId must be a 5-digit string' }),
+            };
+        }
+        // scheduleId debe ser objeto con los campos requeridos
+        const sched = data.scheduleId;
+        if (typeof sched !== 'object' || sched === null ||
+            !('id' in sched) || !('centerId' in sched) || !('specialtyId' in sched) || !('medicId' in sched) || !('date' in sched)) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: 'scheduleId must be an object with id, centerId, specialtyId, medicId, date' }),
+            };
+        }
         if (!['PE', 'CL'].includes(data.countryISO)) {
             return {
                 statusCode: 400,
                 body: JSON.stringify({ message: 'Invalid countryISO. Must be "PE" or "CL"' }),
             };
         }
-
         const appointmentId = uuidv4();
         const item = {
             id: appointmentId,
             insuredId: data.insuredId,
-            scheduleId: data.scheduleId,
+            scheduleId: {
+                id: sched.id,
+                centerId: sched.centerId,
+                specialtyId: sched.specialtyId,
+                medicId: sched.medicId,
+                date: sched.date
+            },
             countryISO: data.countryISO,
             status: 'pending',
             createdAt: new Date().toISOString(),

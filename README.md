@@ -96,6 +96,59 @@ curl https://https://dqmh5iouf1.execute-api.us-east-2.amazonaws.com/dev/appointm
   ]
 }
 ```
+
+## Ejemplo real de POST
+
+```bash
+curl -X POST https://dqmh5iouf1.execute-api.us-east-2.amazonaws.com/dev/appointments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "insuredId": "01234",
+    "scheduleId": {
+      "id": 1001,
+      "centerId": 4,
+      "specialtyId": 3,
+      "medicId": 4,
+      "date": "2024-09-30T12:30:00Z"
+    },
+    "countryISO": "PE"
+  }'
+```
+**Respuesta esperada:**
+```json
+{
+  "message": "Agendamiento en proceso"
+}
+```
+
+## Ejemplo real de GET
+
+```bash
+curl https://dqmh5iouf1.execute-api.us-east-2.amazonaws.com/dev/appointments/01234
+```
+**Respuesta esperada:**
+```json
+{
+  "appointments": [
+    {
+      "id": "<uuid>",
+      "insuredId": "01234",
+      "scheduleId": {
+        "id": 1001,
+        "centerId": 4,
+        "specialtyId": 3,
+        "medicId": 4,
+        "date": "2024-09-30T12:30:00Z"
+      },
+      "countryISO": "PE",
+      "status": "pending",
+      "createdAt": "2025-09-18T12:00:00Z",
+      "updatedAt": "2025-09-18T12:05:00Z"
+    }
+  ]
+}
+```
+
 ## Autor
 - Warren Cuadros Rodriguez
 - wcuadrosr@hotmail.com

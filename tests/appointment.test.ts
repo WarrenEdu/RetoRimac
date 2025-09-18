@@ -31,7 +31,13 @@ describe("handlePost", () => {
   });
 
   it("debe retornar 400 si countryISO es inválido", async () => {
-    const event = { body: JSON.stringify({ insuredId: "01234", scheduleId: 1001, countryISO: "AR" }) } as APIGatewayProxyEvent;
+    const event = { body: JSON.stringify({ insuredId: "01234", scheduleId: {
+      id: 1001,
+      centerId: 4,
+      specialtyId: 3,
+      medicId: 4,
+      date: "2024-09-30T12:30:00Z"
+    }, countryISO: "AR" }) } as APIGatewayProxyEvent;
     const result = await handlePost(event);
     expect(result.statusCode).toBe(400);
   });
@@ -39,7 +45,13 @@ describe("handlePost", () => {
   it("debe retornar 200 si la petición es válida", async () => {
     mockSend.mockResolvedValue({});
     mockSNSend.mockResolvedValue({});
-    const event = { body: JSON.stringify({ insuredId: "01234", scheduleId: 1001, countryISO: "PE" }) } as APIGatewayProxyEvent;
+    const event = { body: JSON.stringify({ insuredId: "01234", scheduleId: {
+      id: 1001,
+      centerId: 4,
+      specialtyId: 3,
+      medicId: 4,
+      date: "2024-09-30T12:30:00Z"
+    }, countryISO: "PE" }) } as APIGatewayProxyEvent;
     const result = await handlePost(event);
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body).message).toBe("Agendamiento en proceso");

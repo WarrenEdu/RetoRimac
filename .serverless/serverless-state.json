@@ -304,7 +304,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/agendamiento-medico-rimac/dev/1758173631919-2025-09-18T05:33:51.919Z/agendamiento-medico-rimac.zip"
+                "S3Key": "serverless/agendamiento-medico-rimac/dev/1758233258020-2025-09-18T22:07:38.020Z/agendamiento-medico-rimac.zip"
               },
               "Handler": "src/handlers/appointment.handler",
               "Runtime": "nodejs18.x",
@@ -346,7 +346,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/agendamiento-medico-rimac/dev/1758173631919-2025-09-18T05:33:51.919Z/agendamiento-medico-rimac.zip"
+                "S3Key": "serverless/agendamiento-medico-rimac/dev/1758233258020-2025-09-18T22:07:38.020Z/agendamiento-medico-rimac.zip"
               },
               "Handler": "src/handlers/appointment_pe.handler",
               "Runtime": "nodejs18.x",
@@ -388,7 +388,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/agendamiento-medico-rimac/dev/1758173631919-2025-09-18T05:33:51.919Z/agendamiento-medico-rimac.zip"
+                "S3Key": "serverless/agendamiento-medico-rimac/dev/1758233258020-2025-09-18T22:07:38.020Z/agendamiento-medico-rimac.zip"
               },
               "Handler": "src/handlers/appointment_cl.handler",
               "Runtime": "nodejs18.x",
@@ -423,34 +423,34 @@
               "AppointmentUnderscoreclLogGroup"
             ]
           },
-          "AppointmentLambdaVersionBXH1R4vdTvrJi0zJqNIx3W3mxBzsExQN5q1Jaatno": {
+          "AppointmentLambdaVersion6OOAPjYwekN1CDAtkgBxSt6iSRpOtuhEyPK7Ga3PGKk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppointmentLambdaFunction"
               },
-              "CodeSha256": "6IESnBgLKR1WFxlgOO5fGqwWw/OjgNlnqFt+fgzWYUA="
+              "CodeSha256": "raw2B1AcUlJLXCJ50nldLDe+giK/0bJ4cHgC6EjfKvk="
             }
           },
-          "AppointmentUnderscorepeLambdaVersionbfRG13AZOraCDnZ39aDfVI3iuomjPJNWM2H0xvkU5s": {
+          "AppointmentUnderscorepeLambdaVersionBHSnFv2alwT37kVILgwtaRiNdIe6akgwJXDmnHkTLw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppointmentUnderscorepeLambdaFunction"
               },
-              "CodeSha256": "6IESnBgLKR1WFxlgOO5fGqwWw/OjgNlnqFt+fgzWYUA="
+              "CodeSha256": "raw2B1AcUlJLXCJ50nldLDe+giK/0bJ4cHgC6EjfKvk="
             }
           },
-          "AppointmentUnderscoreclLambdaVersionobmtm2QsTn4PT2ci8joxukVh3jnVIqLJHjp2FF8gY": {
+          "AppointmentUnderscoreclLambdaVersion8Ux3XpfwNmRHAUpwoU1peXHSNdV2Isli2KdkljZH9s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppointmentUnderscoreclLambdaFunction"
               },
-              "CodeSha256": "6IESnBgLKR1WFxlgOO5fGqwWw/OjgNlnqFt+fgzWYUA="
+              "CodeSha256": "raw2B1AcUlJLXCJ50nldLDe+giK/0bJ4cHgC6EjfKvk="
             }
           },
           "ApiGatewayRestApi": {
@@ -584,7 +584,7 @@
               "AppointmentLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1758173600631": {
+          "ApiGatewayDeployment1758233227838": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -846,7 +846,7 @@
           "AppointmentLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppointmentLambdaVersionBXH1R4vdTvrJi0zJqNIx3W3mxBzsExQN5q1Jaatno"
+              "Ref": "AppointmentLambdaVersion6OOAPjYwekN1CDAtkgBxSt6iSRpOtuhEyPK7Ga3PGKk"
             },
             "Export": {
               "Name": "sls-agendamiento-medico-rimac-dev-AppointmentLambdaFunctionQualifiedArn"
@@ -855,7 +855,7 @@
           "AppointmentUnderscorepeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppointmentUnderscorepeLambdaVersionbfRG13AZOraCDnZ39aDfVI3iuomjPJNWM2H0xvkU5s"
+              "Ref": "AppointmentUnderscorepeLambdaVersionBHSnFv2alwT37kVILgwtaRiNdIe6akgwJXDmnHkTLw"
             },
             "Export": {
               "Name": "sls-agendamiento-medico-rimac-dev-AppointmentUnderscorepeLambdaFunctionQualifiedArn"
@@ -864,7 +864,7 @@
           "AppointmentUnderscoreclLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppointmentUnderscoreclLambdaVersionobmtm2QsTn4PT2ci8joxukVh3jnVIqLJHjp2FF8gY"
+              "Ref": "AppointmentUnderscoreclLambdaVersion8Ux3XpfwNmRHAUpwoU1peXHSNdV2Isli2KdkljZH9s"
             },
             "Export": {
               "Name": "sls-agendamiento-medico-rimac-dev-AppointmentUnderscoreclLambdaFunctionQualifiedArn"
@@ -1030,7 +1030,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppointmentLambdaVersionBXH1R4vdTvrJi0zJqNIx3W3mxBzsExQN5q1Jaatno"
+        "versionLogicalId": "AppointmentLambdaVersion6OOAPjYwekN1CDAtkgBxSt6iSRpOtuhEyPK7Ga3PGKk"
       },
       "appointment_pe": {
         "handler": "src/handlers/appointment_pe.handler",
@@ -1050,7 +1050,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppointmentUnderscorepeLambdaVersionbfRG13AZOraCDnZ39aDfVI3iuomjPJNWM2H0xvkU5s"
+        "versionLogicalId": "AppointmentUnderscorepeLambdaVersionBHSnFv2alwT37kVILgwtaRiNdIe6akgwJXDmnHkTLw"
       },
       "appointment_cl": {
         "handler": "src/handlers/appointment_cl.handler",
@@ -1070,7 +1070,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppointmentUnderscoreclLambdaVersionobmtm2QsTn4PT2ci8joxukVh3jnVIqLJHjp2FF8gY"
+        "versionLogicalId": "AppointmentUnderscoreclLambdaVersion8Ux3XpfwNmRHAUpwoU1peXHSNdV2Isli2KdkljZH9s"
       }
     },
     "resources": {
@@ -1236,7 +1236,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/agendamiento-medico-rimac/dev/1758173631919-2025-09-18T05:33:51.919Z",
+    "artifactDirectoryName": "serverless/agendamiento-medico-rimac/dev/1758233258020-2025-09-18T22:07:38.020Z",
     "artifact": "agendamiento-medico-rimac.zip"
   }
 }
